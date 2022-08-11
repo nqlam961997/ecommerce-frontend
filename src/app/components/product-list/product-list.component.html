@@ -1,0 +1,54 @@
+<div class="section-content">
+    <div class="row mx-3">
+        <div class="row w-30">
+            <span class="mr-2">Page Size</span>
+            <select class="form-select form-select-lg mb-3" (change)="updatePageSize($any($event.target).value)">
+                <option selected>5</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+            </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 my-2" *ngFor="let tempProduct of products; index as i">
+            <div class="card" style="width: 18rem; height: 32rem">
+                <a routerLink="/products/{{ tempProduct.id }}" class="text-decoration-none">
+                    <img src="{{ tempProduct.imageUrl }}" class="card-img-top" alt="{{ tempProduct.name }}" />
+                </a>
+                <div class="card-body">
+                    <a routerLink="/products/{{ tempProduct.id }}" class="text-decoration-none">
+                        <h5 class="card-title">{{ tempProduct.name }}</h5>
+                    </a>
+                    <p class="card-text text-truncate">
+                        {{ tempProduct.description }}
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {{ tempProduct.unitPrice | currency: "USD" }}
+                    </li>
+                    <li class="list-group-item">{{ tempProduct.unitsInStock }}</li>
+                </ul>
+                <div class="card-body d-grid gap-2 d-md-block">
+                    <button class="btn btn-primary btn-sm" style="margin-right: 5px"
+                        (click)="addToCart(tempProduct)">Add to Cart</button>
+                    <button routerLink="/products/{{ tempProduct.id }}" class="btn btn-secondary btn-sm">More
+                        Detail</button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+            No product found
+        </div>
+
+        <div class="footer-pagination row">
+            <div class="col-4"></div>
+
+            <div class="col-8 flex-row justify-content-end">
+                <ngb-pagination [(page)]="thePageNumber" [pageSize]="thePageSize" [collectionSize]="theTotalElements"
+                    [boundaryLinks]="true" [maxSize]="5" (pageChange)="listProducts()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
